@@ -4,11 +4,8 @@ import { CountriesContext } from "../Context/index";
 
 
 export const  ConsultCountries = () => {
-
     const context = useContext(CountriesContext);
-
     const sendConsultCountries = async () => {
-        alert();
         try{
             
             const response = await fetch (ENDPOINTS.consultAllCountries,{

@@ -23,8 +23,6 @@ const CountrieCard  = () => {
   context.allCountries && context.allCountries.length > 0
     ? context.allCountries.slice(indexOfFirstCard, indexOfLastCard)
     : [];
-
-    console.log(visibleCards);
   return(
     <div className="flex justify-center items-center   dark:bg-neutral-900  ">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 ">
