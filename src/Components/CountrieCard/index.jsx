@@ -15,8 +15,6 @@ const CountrieCard  = () => {
     }
   }, []);
 
-
-
   const cardsPerPage = 12;
  
   const indexOfLastCard = currentPage * cardsPerPage;
@@ -26,12 +24,10 @@ const CountrieCard  = () => {
     ? context.allCountries.slice(indexOfFirstCard, indexOfLastCard)
     : [];
 
-
-
+    console.log(visibleCards);
   return(
-    
-    <div className="flex justify-center items-center min-h-screen  dark:bg-neutral-900 ">
-      <div className="w-full max-w-screen-2xl py-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
+    <div className="flex justify-center items-center   dark:bg-neutral-900  ">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 ">
         {context.allCountries && context.allCountries.length > 0 ? (
             visibleCards.map((element) => (
               <div className="max-w-xs w-full bg-slate-50 rounded-md px-6 py-4 border border-slate-200 dark:bg-zinc-800 dark:border dark:border-slate-700"> 
@@ -73,22 +69,23 @@ const CountrieCard  = () => {
                   <p className="text-center text-gray-500 dark:text-gray-400">Cargando países...</p>
                 )}
         </div>
+        {visibleCards.length > 0 && (
+          <div className="fixed bottom-5 flex gap-4">
+               {[...Array(Math.ceil(context.allCountries.length / cardsPerPage)).keys()].map((page) => (
+                 <button
+                   key={page}
+                   className={`px-4 py-2 rounded ${
+                     page + 1 === currentPage ? "bg-blue-500 text-white" : "bg-gray-300 dark:bg-gray-700 dark:text-white"
+                   }`}
+                   onClick={() => setCurrentPage(page + 1)}
+                 >
+                   {page + 1}
+                 </button>
+                ))}
+          </div>  
 
-        {/* <div className=" absolute bottom-[-75px] flex gap-4">
-          {[...Array(Math.ceil(context.allCountries.length / cardsPerPage)).keys()].map((page) => (
-            <button
-              key={page}
-              className={`px-4 py-2 rounded ${
-                page + 1 === currentPage ? "bg-blue-500 text-white" : "bg-gray-300 dark:bg-gray-700"
-              }`}
-              onClick={() => setCurrentPage(page + 1)}
-            >
-              {page + 1}
-            </button>
-          ))}
-        </div> */}
-     
-    </div>
+        )}
+  </div>
 )
 
 }

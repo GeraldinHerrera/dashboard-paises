@@ -1,19 +1,28 @@
-
+// src/components/ThemeToggleButton.jsx
 import { useTheme } from "../../Context/ThemeContext"
+import { FormControlLabel, Switch } from "@mui/material"
+import DarkModeIcon from "@mui/icons-material/DarkMode"
+import LightModeIcon from "@mui/icons-material/LightMode"
 
 const ThemeToggleButton = () => {
-  const { theme, handleChangeTheme  } = useTheme()
-
+  const { theme, handleChangeTheme } = useTheme()
+  const isDark = theme === 'dark'
   return (
-        <div className="fixed bottom-4 right-4 z-50">
-            <button 
-                onClick={handleChangeTheme}
-                className="bg-slate-200 px-4 py-2 rounded dark:bg-slate-950 dark:text-white"
-            >
-                🌗
-            </button>
-        </div>
+    <div className="fixed bottom-4 right-6 z-50 bg-transparent">
+      <FormControlLabel
+        control={
+          <Switch
+            checked={isDark}
+            onChange={handleChangeTheme}
+            color="default"
+          />
+        }
+        label={isDark ? <DarkModeIcon className="text-blue-500" /> : <LightModeIcon className="text-amber-400" />}
+        labelPlacement="start"
+      />
+    </div>
   )
 }
 
 export default ThemeToggleButton
+
