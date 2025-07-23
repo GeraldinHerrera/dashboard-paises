@@ -33,9 +33,9 @@ const CountrieCard  = () => {
                     {Icons['icon-Arrow']}
                   </span>
                   <div className="flex items-center gap-4 mb-4">
-                    <img className="w-24 rounded shrink-0" src={element.flags.png} alt="Flag" />
+                    <img className="w-24 rounded shrink-0" src={element.icon} alt="Flag" />
                     <label className="font-medium text-lg pr-4 break-words text-gray-800 dark:text-white w-full">
-                      {element.name.common}
+                      {element.name}
                     </label>
                   </div>
                   <div className='flex flex-col gap-5 mb-6'>

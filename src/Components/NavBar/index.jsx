@@ -29,11 +29,11 @@ const NavBar = () => {
     }
   
     const handleSearch = (texto) => {
-      setSearch(texto);
-      const prue = data.filter(e => e.name.common.includes({texto})); 
-      console.log(search);
-       console.log(prue) 
       debugger
+      setSearch(texto);
+      console.log(search)
+
+      console.log(context.allCountries);
     };
 
   return (
