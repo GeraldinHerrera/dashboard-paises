@@ -6,34 +6,40 @@ import { CountriesContext } from "../../Context/index";
 const CountrieCard  = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const { sendConsultCountries } = ConsultCountries();
-  const context = useContext(CountriesContext);
+  const {
+    allCountries,
+    filteredCountries,
+    setShowModal,
+    nameContinents,
+  } = useContext(CountriesContext)
 
   useEffect(() => {
-    debugger
-    if (!context.allCountries || context.allCountries.length === 0) {
-      sendConsultCountries();
-    }
-  }, []);
+      sendConsultCountries(nameContinents);
+  }, [nameContinents]);
 
   const cardsPerPage = 12;
  
   const indexOfLastCard = currentPage * cardsPerPage;
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
-  const visibleCards =
-  context.allCountries && context.allCountries.length > 0
-    ? context.allCountries.slice(indexOfFirstCard, indexOfLastCard)
-    : [];
+  const visibleCards = useMemo(() => {
+    if (!allCountries || allCountries.length === 0) return [];
+    return filteredCountries.slice(indexOfFirstCard, indexOfLastCard);
+  }, [filteredCountries, allCountries, indexOfFirstCard, indexOfLastCard]);
+  
   return(
     <div className="flex justify-center items-center   dark:bg-neutral-900  ">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 ">
-        {context.allCountries && context.allCountries.length > 0 ? (
-            visibleCards.map((element) => (
-              <div className="max-w-xs w-full bg-slate-50 rounded-md px-6 py-4 border border-slate-200 dark:bg-zinc-800 dark:border dark:border-slate-700"> 
-                  <span className='flex justify-end cursor-pointer dark:text-white'>
+        {filteredCountries && filteredCountries.length > 0 ? (
+            visibleCards.map((element,index) => (
+              <div key={index} className="max-w-xs w-full bg-slate-50 rounded-md px-6 py-4 border border-slate-200 dark:bg-zinc-800 dark:border dark:border-slate-700"> 
+                  <span onClick={() => setShowModal(element.name)} className='flex justify-end cursor-pointer dark:text-white hover:text-lg'>
                     {Icons['icon-Arrow']}
                   </span>
                   <div className="flex items-center gap-4 mb-4">
-                    <img className="w-24 rounded shrink-0" src={element.icon} alt="Flag" />
+                    <img 
+                     className="w-24 rounded shrink-0"
+                     src={element.icon || "/public/img/world.png"}
+                      alt="Flag" />
                     <label className="font-medium text-lg pr-4 break-words text-gray-800 dark:text-white w-full">
                       {element.name}
                     </label>
@@ -69,7 +75,7 @@ const CountrieCard  = () => {
         </div>
         {visibleCards.length > 0 && (
           <div className="fixed bottom-5 flex gap-4">
-               {[...Array(Math.ceil(context.allCountries.length / cardsPerPage)).keys()].map((page) => (
+               {[...Array(Math.ceil(filteredCountries.length / cardsPerPage)).keys()].map((page) => (
                  <button
                    key={page}
                    className={`px-4 py-2 rounded ${
@@ -81,6 +87,7 @@ const CountrieCard  = () => {
                  </button>
                 ))}
           </div>  
+
 
         )}
   </div>

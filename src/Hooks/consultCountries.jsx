@@ -5,9 +5,13 @@ import { CountriesContext } from "../Context/index";
 
 export const  ConsultCountries = () => {
     const context = useContext(CountriesContext);
-    const sendConsultCountries = async () => {
+    const sendConsultCountries = async (nameContinents) => {
         try{  
-            const response = await fetch (ENDPOINTS.consultAllCountries,{
+            if(nameContinents == "" ){
+                nameContinents = "americas";
+            }
+          
+            const response = await fetch (`${ENDPOINTS.consultAllCountries + nameContinents}?fields=name,flags,population,currencies,region,capital`,{
                 method:"GET",
                 headers: { "Content-Type": "application/json" },
             })
@@ -36,13 +40,23 @@ export const  ConsultCountries = () => {
             alert("Login Errir:" + error.message);
         }
     }
-
-    // function format(objeto) {
-    //     debugger
-    //     // const nombre = Object.keys(objeto);
-    //     // const nombre1 = objeto(nombre);
-
-    // }
-
     return { sendConsultCountries };
+}
+
+export const  consultInfoCountrie = () => {
+    const sendConsultInfo = async (nameCountrie) => {
+        try{  
+            const response = await fetch (`${ENDPOINTS.consultOneCountrie + nameCountrie}?fullText=true&fields=latlng`,{
+                method:"GET",
+                headers: { "Content-Type": "application/json" },
+            })
+            const data = await response.json();       
+            return data;
+
+        }catch (error){
+            console.error("Error ", error.message);
+            alert("Login Errir:" + error.message);
+        }
+    }
+    return { sendConsultInfo };
 }
